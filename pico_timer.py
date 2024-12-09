@@ -69,12 +69,12 @@ def timer_dma_init(timer):
     return dma
 
 # Start frequency measurment using interval times
-def timer_start(timer, dma):
+def timer_start(timer, dma, time_array):
     timer.set_ctr(0)
     timer.set_enabled(True)
     dma.abort()
-    dma.set_write_addr(devs.addressof(time_data))
-    dma.set_trans_count(NTIMES, True)
+    dma.set_write_addr(devs.addressof(time_array))
+    dma.set_trans_count(len(time_array), True)
 
 # Stop frequency measurment using interval times
 def timer_stop(timer):
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     timer_pwm = timer_init(PWM_IN_PIN)
     timer_dma = timer_dma_init(timer_pwm)
     
-    timer_start(timer_pwm, timer_dma)
+    timer_start(timer_pwm, timer_dma, time_data)
     time.sleep(1.0)
     timer_stop(timer_pwm)
     
